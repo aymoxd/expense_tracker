@@ -1,0 +1,311 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+h1,h2,h3,h4,h5{
+    color: #000000c4;
+}
+.container{
+    padding: 30px 100px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #eee;
+    transition: all 0.3s ease;
+}
+
+.container .header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    transition: all 0.3s ease;
+}
+.container .numbersBox{
+    padding: 20px 0;
+    display: grid;
+    gap: 15px;
+    grid-template-columns: 1fr 1fr 1fr;
+    transition: all 0.3s ease;
+}
+.container .numbersBox .box{
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.container .numbersBox .box:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border-color: #cbd5e1;
+}
+.table{
+    padding: 20px 0;
+}
+table{
+    border: 1px solid #eee;
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    transition: all 0.3s ease;
+}
+thead{
+    background: #2563eb;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+td{
+  padding: 14px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 15px;
+}
+tbody tr:hover{
+    background: #f8fafc;
+    transition: background 0.2s ease;
+}
+tbody tr:nth-child(even){
+    background: #fafafa;
+}
+.add{
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 40px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    z-index: 5
+}
+.add:active, .closePopup{
+    transform: scale(0.9);
+}
+.overlay{
+    position: fixed;
+    background: #00000068;
+    inset: 0;
+    z-index: 10;
+    cursor: pointer;
+    display: none;
+}
+.popup{
+    position: relative;
+    background: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 20;
+    width: 450px;
+    padding: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: none;
+}
+.active{
+    display: block;
+}
+.popup form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+form h2{
+    margin-bottom: 20px;
+}
+form .inputBox{
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+form input , select , option{
+    font-size: 17px;
+    height: 50px;
+    outline: none;
+    border-radius: 7px;
+    border: 1px solid #c5c5c5;
+    margin-top: 5px;
+    padding-left: 15px;
+    transition: all 0.2s ease;
+}
+form textarea{
+    height: 100px;
+    padding: 15px;
+    margin-top: 5px;
+    border-radius: 12px;
+    border: 1px solid #c5c5c5;
+    outline: none;
+    transition: all 0.2s ease;
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 100px;
+    min-height: 100px;
+}
+form input:focus, textarea:focus{
+    border-color: #2563eb;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+form .formBTN{
+    width: 100%;
+    height: 60px;
+    border: none;
+    border-radius: 12px;
+    background: #2563eb;
+    color: #fff;
+    font-size: 17px;
+    margin-bottom: 30px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* style errror display */
+.noerror{
+     background: rgba(144, 238, 144, 0.55);
+     color: rgb(9, 87, 9);
+     padding: 15px;
+     border-radius: 9px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+}
+.error{
+     background: rgba(240, 128, 128, 0.59);
+     color: rgb(101, 11, 11);
+     padding: 15px;
+     border-radius: 9px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+}
+#close{
+    cursor: pointer;
+}
+.closePopup {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 28px;
+    opacity: 0.6;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+}
+.closePopup:hover{
+    background: #eeeeee;
+}
+.back{
+    position: absolute;
+    top: 35px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 17px;
+    text-decoration: none;
+    color: #000;
+    padding: 3px 5px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+.back:hover{
+    background: #eeeeee;
+}
+.tableVide{
+    font-weight: 900;
+    opacity: 0.2;
+    height:  200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.editContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    background: #eee;
+    flex-direction: column;
+    padding: 0 10px;
+}
+.editForm{
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    border: 1px solid #c5c5c5;
+    position: relative;
+    background: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 20;
+    width: 450px;
+    padding: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* responsive */
+@media (max-width: 767px){
+    table{
+        font-size: 14px;
+    }
+    th , td {
+        padding: 10px 8px;
+    }
+    .container{
+    padding: 30px 10px;
+    }
+    .container .numbersBox{
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 2;
+    }
+    .gridCustum{
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+    .popup{
+        width: 90%;
+    }
+    .editForm{
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+}
