@@ -27,7 +27,7 @@
             
             $_SESSION['user'] = $user['name'];
             $_SESSION['user_id'] = $user['id'];
-            header("Location: ../index.php");
+            header("Location: ../index.php?action=dashboard");
             exit; 
       }else{
          echo "<div class='formError'> password incorrect </div>";

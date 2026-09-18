@@ -57,6 +57,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       
 }
 
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,12 +66,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../asset/css/index.css">
+    <?php require_once '../includes/header_libraries.php'; ?>
     <title>Edit</title>
 </head>
 <body>
     <div class="editContainer">
         <form class="editForm" method="post">
-        <a href="../index.php" class="back">back⟶</a>
+        <a href="../index.php" class="back">back <i class="ri-arrow-right-line"></i></a>
             <h2>Edit transaction</h2>
             <div class="inputBox">
                 <label for="amount">Amount *</label>
