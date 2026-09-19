@@ -22,21 +22,23 @@ ob_start();
         </div>
         
        <div class="numbersBox">
+         <div class="box gridCustum">
+                <i class="ri-wallet-3-line icon"></i>
+                <p>Current Balance</p>
+                <h1 class="digit"><?= htmlspecialchars($curentBalance) ?> MAD</h1>
+            </div>
+                 <div class="box">
+                <i class="ri-arrow-up-circle-line icon"></i>
+                <p>Expense</p>
+                <h1 class="digit"><?= htmlspecialchars($expense) ?> MAD</h1>
+            </div>
             <div class="box">
                 <i class="ri-arrow-down-circle-line icon"></i>
                 <p>Income</p>
                 <h1 class="digit"><?=htmlspecialchars($income) ?> MAD</h1>
             </div>
-               <div class="box">
-                <i class="ri-arrow-up-circle-line icon"></i>
-                <p>Expence</p>
-                <h1 class="digit"><?= htmlspecialchars($expense) ?> MAD</h1>
-            </div>
-              <div class="box gridCustum">
-                <i class="ri-wallet-3-line icon"></i>
-                <p>Current Balance</p>
-                <h1 class="digit"><?= htmlspecialchars($curentBalance) ?> MAD</h1>
-            </div>
+          
+             
         </div> 
        
 
@@ -59,8 +61,8 @@ ob_start();
                 <div class="data"><?= htmlspecialchars($transaction->type) ?></div>
                 <div class="data"><?= htmlspecialchars($transaction->description) ?></div>
                  <div class="data">
-                      <a id="edit" href="transaction/edit_transaction.php?id=<?= $transaction->id ?>"><i class="ri-pencil-fill"></i> Edit</a>
-                      <a id="delete" href="transaction/delete_transaction.php?id=<?= $transaction->id ?>" onclick="return confirm('are you sur you want to delete this transaction ?');"><i class="ri-delete-bin-line"></i> Delete</a>
+                      <a id="edit" href="index.php?action=edit&id=<?= $transaction->id ?>"><i class="ri-pencil-fill"></i> Edit</a>
+                      <a id="delete" href="index.php?action=delete&id=<?= $transaction->id ?>" onclick="return confirm('are you sur you want to delete this transaction ?');"><i class="ri-delete-bin-line"></i> Delete</a>
                  </div>
             </div>
 

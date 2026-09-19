@@ -5,7 +5,7 @@ require_once 'config/db.php';
 
 function getTransactions($userId){
     global $pdo;
-    $sqlState = $pdo->prepare("SELECT * FROM transactions WHERE user_id = ?");
+    $sqlState = $pdo->prepare("SELECT * FROM transactions WHERE user_id = ? ORDER BY id DESC");
     $sqlState->execute([ $userId ]);
     return $sqlState->fetchAll(PDO::FETCH_OBJ);
 }
@@ -37,4 +37,35 @@ function createTransaction($userId,$type,$amount,$description,$date){
           $description,
           $date
         ]);
+}
+
+function getUserTransaction($userId,$transactionId){
+        global $pdo;
+        $sqlState = $pdo->prepare("SELECT * FROM transactions WHERE user_id = ? and id = ?");
+        $sqlState->execute([ $userId , $transactionId]);
+        return $sqlState->fetch(PDO::FETCH_OBJ);
+}
+function update($userId,$transactionId,$amount,$type,$description,$date){
+        global $pdo;
+        $stmt = $pdo->prepare("UPDATE transactions SET amount=? ,
+                                                       type=? ,
+                                                       description=? ,
+                                                       created_at=? 
+                                                       WHERE id = ? AND user_id = ?
+        ");                                         
+        return  $stmt->execute([
+                $amount ,
+                $type ,
+                $description ,
+                $date ,
+                $transactionId ,
+                $userId
+        ]);
+
+}
+
+function destroy($transactionId,$userId){
+        global $pdo;
+        $stmt = $pdo->prepare("DELETE FROM transactions WHERE id = ? AND user_id = ?");
+        return $stmt->execute([ $transactionId , $userId ]);
 }
