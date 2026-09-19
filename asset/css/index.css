@@ -41,7 +41,7 @@ main { min-height: 100vh; }
 .container { width: min(1180px, calc(100% - 48px)); min-height: 100vh; margin: 0 auto; padding: 48px 0 88px; }
 .container > h2 { margin: 0 0 var(--space-3); color: var(--secondary); font-size: 1.05rem; font-weight: 700; letter-spacing: -.015em; text-transform: capitalize; }
 
-/* =========================
+/* =========================createContainer
    HEADER
 ========================= */
 .container .header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); margin-bottom: var(--space-8); }
@@ -110,7 +110,8 @@ form input:disabled, form select:disabled, form textarea:disabled, form .formBTN
 form .formBTN { min-height: 48px; margin-top: var(--space-1); border: 1px solid var(--primary); border-radius: var(--radius-sm); background: var(--primary); color: #fff; font-size: .94rem; font-weight: 700; transition: background var(--transition), border-color var(--transition), box-shadow var(--transition), transform var(--transition); width: 100%; }
 form .formBTN:hover { border-color: var(--primary-hover); background: var(--primary-hover); box-shadow: 0 6px 14px rgba(37, 99, 235, .2); }
 form .formBTN:active { transform: translateY(1px); box-shadow: none; }
-.add { position: fixed; right: 28px; bottom: 28px; z-index: 5; display: grid; width: 56px; height: 56px; place-items: center; border: 1px solid rgba(255, 255, 255, .45); border-radius: 50%; background: var(--primary); color: #fff; box-shadow: 0 12px 26px rgba(37, 99, 235, .32); font-size: 1.4rem; text-decoration: none; transition: background var(--transition), box-shadow var(--transition), transform var(--transition); }
+.add { position: fixed; right: max(28px, env(safe-area-inset-right)); bottom: max(28px, env(safe-area-inset-bottom)); z-index: 5; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 56px; padding: 0 20px; border: 1px solid rgba(255, 255, 255, .45); border-radius: 999px; background: var(--primary); color: #fff; box-shadow: 0 12px 26px rgba(37, 99, 235, .32); font-size: .92rem; font-weight: 700; text-decoration: none; transition: background var(--transition), box-shadow var(--transition), transform var(--transition); }
+.add i { font-size: 1.3rem; }
 .add:hover { background: var(--primary-hover); box-shadow: 0 16px 32px rgba(37, 99, 235, .4); transform: translateY(-2px); }
 .add:active { transform: scale(.95); }
 .overlay { position: fixed; z-index: 10; inset: 0; display: none; background: rgba(15, 23, 42, .52); backdrop-filter: blur(3px); cursor: pointer; }
@@ -126,7 +127,11 @@ form .formBTN:active { transform: translateY(1px); box-shadow: none; }
 .noerror, .error { display: flex; align-items: center; justify-content: space-between; width: min(1180px, calc(100% - 48px)); margin: 20px auto 0; padding: 13px 16px; border: 1px solid; border-radius: var(--radius-sm); font-size: .9rem; }
 .noerror { border-color: #a7f3d0; background: var(--success-soft); color: #065f46; }
 .error { border-color: #fecaca; background: #fef2f2; color: var(--danger); }
-#close { cursor: pointer; }
+.container > .noerror, .container > .error { width: 100%; margin: 0 0 var(--space-5); }
+.container > .error ul { padding-left: 18px; }
+.closeMessage { display: grid; flex: 0 0 auto; width: 30px; height: 30px; place-items: center; margin: -4px -7px -4px 12px; border: 0; border-radius: 7px; background: transparent; color: currentColor; font-size: 1.15rem; }
+.closeMessage:hover { background: rgba(15, 23, 42, .08); }
+.closeMessage:active { transform: scale(.94); }
 .editContainer { display: grid; min-height: 100vh; place-items: center; padding: 32px 24px; background: var(--background); }
 .editForm { position: relative; width: min(470px, 100%); padding: 34px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow); }
 .back { position: absolute; top: 31px; right: 30px; display: inline-flex; align-items: center; gap: 4px; color: var(--primary-hover); font-size: .84rem; font-weight: 650; text-decoration: none; }
@@ -154,12 +159,14 @@ form .formBTN:active { transform: translateY(1px); box-shadow: none; }
   .data:nth-child(3) { grid-column: 1; grid-row: 2; }
   .data:nth-child(4) { grid-column: 1 / -1; grid-row: 3; padding-top: 2px; }
   .data:last-child { grid-column: 1 / -1; grid-row: 4; justify-content: flex-start; padding-top: 5px; }
-  .add { right: 18px; bottom: 18px; width: 54px; height: 54px; }
+  .add { right: max(18px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); }
   .popup { padding: 28px 22px; }
 }
 @media (max-width: 460px) {
   .container .header { flex-direction: column; gap: var(--space-3); }
   .logOut { width: 100%; }
+  .add { width: 54px; min-height: 54px; padding: 0; border-radius: 50%; }
+  .add span { display: none; }
   .data:last-child { flex-wrap: wrap; }
   #edit, #delete { flex: 1 1 116px; }
   .editContainer { padding: 16px; }

@@ -12,13 +12,13 @@ ob_start();
 
     <section class="createContainer">
         <form class="createForm" action="index.php?action=store" method="post">
-            <h2>Add transaction</h2>
+            <h2>Add Transaction</h2>
             <div class="inputBox">
                 <label for="amount">Amount *</label>
                 <input class="amount" id="amount" type="number" name="amount" required>
             </div>
                 <div class="inputBox"> 
-                <label for="type">type *</label>
+                <label for="type">Type *</label>
                 <select id="type" name="type" required>
                     <option value="expense">Expense</option>
                     <option value="income">Income</option>
@@ -28,7 +28,7 @@ ob_start();
                 <label for="description">Description *</label>
                 <textarea class="description" name="description" id="description" placeholder="Description..." required></textarea>
             </div>
-            <button class="formBTN" type="submit">add transaction</button>
+            <button class="formBTN" type="submit">Add Transaction</button>
                 
         </form>
     </section>

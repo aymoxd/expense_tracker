@@ -21,30 +21,7 @@ A simple web application built with **PHP** to manage personal financial transac
 * CSS
 * JavaScript
 
-## Project Structure
 
-```text
-expens_tracker/
-├── asset/
-│   ├── css/
-│   │   ├── auth.css
-│   │   └── index.css
-│   └── scripts/
-│       └── main.js
-├── auth/
-│   ├── login.php
-│   ├── logout.php
-│   └── register.php
-├── config/
-│   └── db.php
-├── includes/
-│   └── header_libraries.php
-├── index.php
-└── transaction/
-    ├── add_transaction.php
-    ├── delete_transaction.php
-    └── edit_transaction.php
-```
 
 ## Folder Description
 

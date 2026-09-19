@@ -8,59 +8,57 @@
     session_start();
 
     require_once 'controller/transactionsController.php';
+    require_once 'controller/authController.php';
 
     //create router
-    if(isset($_GET['action'])){
-        $action = $_GET['action'];
+        $action = $_GET['action'] ?? 'dashboard';
+
         switch($action){
             case 'dashboard':
+                     requireLogin();
                      dashboardAction();
             break;
             case 'create':
+                     requireLogin();
                      create();
             break;
             case 'store':
+                     requireLogin();
                      createAction();
             break;
              case 'edit':
+                     requireLogin();
                      editPage();
             break;
             case 'update':
+                     requireLogin();
                      updateAction();
             break;
              case 'delete':
+                     requireLogin();
                      deleteAction();
             break;
+            case 'showRegister':
+                     registerPage();
+            break;
+            case 'showLogin':
+                     loginPage();
+            break;
+            case 'login':
+                     loginAction();
+            break;
+            case 'register':
+                     registerAction();
+            break;
+            case 'logout':
+                     requireLogin();
+                     logoutAction();
+            break;
+
+
+            default:
+            header("Location: index.php?action=dashboard");
+            exit;
+
         
         }
-
-    }
-
-
-
-    if(!isset($_SESSION['user']) || empty($_SESSION['user'])){
-        header("Location: auth/login.php");
-        exit;  
-    }
-    $username = $_SESSION['user'];
-    $user_id = $_SESSION['user_id'];
-    
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="asset/css/index.css">
-    <title></title>
-</head>
-<body>
-
-  
-
-    <!-- add transaction btn -->
-    <a href="index.php?action=create" class="add"><i class="ri-add-large-line add-tr"></i></a>
-
-</body>
-</html>

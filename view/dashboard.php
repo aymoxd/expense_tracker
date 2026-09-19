@@ -1,24 +1,42 @@
 <?php
-$title = "dashboard";
+$title = "Dashboard";
 ob_start();
 ?>
 
+    <a href="index.php?action=create" class="add" aria-label="Add a new transaction" title="Add transaction">
+        <i class="ri-add-large-line" aria-hidden="true"></i>
+        <span>Add transaction</span>
+    </a>
+
   <div class="container">
-    <!--   <div class="<?php echo $_SESSION['error']?> msg">
-             <?php if($_SESSION['msg']): ?>
-                 <?php  
-                 echo $_SESSION['msg'] . "<br>";
-                 unset($_SESSION['msg']);
-                 unset($_SESSION['error']);
-                 ?>
-                 <span onclick="document.querySelector('.msg').style.display = 'none';" id="close">✕</span>
-             <?php endif; ?>
-        </div>
-   -->
+        <?php if (!empty($_SESSION['success'])): ?>
+            <div class="noerror flashMessage" role="status" aria-live="polite">
+                <?= htmlspecialchars($_SESSION['success']) ?>
+                <button class="closeMessage" type="button" aria-label="Dismiss message" onclick="this.closest('.flashMessage').remove()">
+                    <i class="ri-close-line" aria-hidden="true"></i>
+                </button>
+            </div>
+            <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
+
+        <?php if (!empty($_SESSION['errors'])): ?>
+            <div class="error flashMessage" role="alert" aria-live="assertive">
+                <ul>
+                    <?php foreach ($_SESSION['errors'] as $error): ?>
+                        <li><?= htmlspecialchars($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+                <button class="closeMessage" type="button" aria-label="Dismiss message" onclick="this.closest('.flashMessage').remove()">
+                    <i class="ri-close-line" aria-hidden="true"></i>
+                </button>
+            </div>
+            <?php unset($_SESSION['errors']); ?>
+        <?php endif; ?>
+    
       
         <div class="header">
-               <h1 class="title">Welcom <i> <?= ucfirst($_SESSION['user']) ?> </i> </h1>
-               <a class="logOut" href="auth/logout.php"><i class="ri-logout-box-r-line"></i> logout</a>
+               <h1 class="title">Welcome, <i><?= ucfirst($_SESSION['username']) ?></i></h1>
+               <a class="logOut" href="index.php?action=logout"><i class="ri-logout-box-r-line"></i> Log out</a>
         </div>
         
        <div class="numbersBox">
@@ -43,7 +61,7 @@ ob_start();
        
 
 
-        <h2>transactions :</h2>
+        <h2>Transactions</h2>
 
        <!-- table  -->
         <div class="table">
@@ -62,7 +80,7 @@ ob_start();
                 <div class="data"><?= htmlspecialchars($transaction->description) ?></div>
                  <div class="data">
                       <a id="edit" href="index.php?action=edit&id=<?= $transaction->id ?>"><i class="ri-pencil-fill"></i> Edit</a>
-                      <a id="delete" href="index.php?action=delete&id=<?= $transaction->id ?>" onclick="return confirm('are you sur you want to delete this transaction ?');"><i class="ri-delete-bin-line"></i> Delete</a>
+                      <a id="delete" href="index.php?action=delete&id=<?= $transaction->id ?>" onclick="return confirm('Are you sure you want to delete this transaction?');"><i class="ri-delete-bin-line"></i> Delete</a>
                  </div>
             </div>
 
@@ -70,7 +88,7 @@ ob_start();
 
            <?php endforeach; ?>
            <?php else:?>
-                    <h1 class="tableVide">NO TRANSACTION EXIST!</h1>
+                    <h1 class="tableVide">No transactions yet.</h1>
              <?php endif; ?>
         </div>
 

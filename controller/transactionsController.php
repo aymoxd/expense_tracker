@@ -3,7 +3,7 @@ require_once 'model/transactions.php';
 
 
 function dashboardAction(){
-    $userId = $_SESSION['user_id'];
+    $userId = $_SESSION['userId'];
     $transactions =  getTransactions($userId);
     $income = getIncome($userId);
     $expense = getExpense($userId);
@@ -21,7 +21,7 @@ function createAction(){
         header("location: index.php?action=create");
         exit;
     }
-    $userId = $_SESSION['user_id']; 
+    $userId = $_SESSION['userId']; 
     $type = trim($_POST['type'] ?? '');
     $amount = trim($_POST['amount'] ?? '');
     $description = trim($_POST['description'] ?? '');
@@ -30,15 +30,16 @@ function createAction(){
 
       #check if the inputs are empty
       if(empty($amount) || empty($type) || empty($description)){
-        $errors[] = "all inputs are required!";
+        $errors[] = "All fields are required.";
       }
         if (strlen($description) > 255) {
-        $errors[] = "Description is too long.";
+        $errors[] = "Description must not exceed 255 characters.";
        }
 
       #check list of errors 
       if(empty($errors)){
             createTransaction($userId,$type,$amount,$description,$date);
+            $_SESSION['success'] = "Transaction added successfully.";
             header("Location: index.php?action=dashboard");
             exit;
       }else{
@@ -50,7 +51,7 @@ function createAction(){
 
 
 function editPage(){
-     $userId = $_SESSION['user_id'];
+     $userId = $_SESSION['userId'];
      $transactionId = $_GET['id'];
      $userTransaction = getUserTransaction($userId,$transactionId);
      require_once 'view/edit.php';
@@ -62,7 +63,7 @@ function editPage(){
         header("location: index.php?action=update");
         exit;
     }
-    $userId = $_SESSION['user_id']; 
+    $userId = $_SESSION['userId']; 
     $transactionId = $_POST['transactionId'];
     $type = trim($_POST['type'] ?? '');
     $amount = trim($_POST['amount'] ?? '');
@@ -72,15 +73,16 @@ function editPage(){
 
       #check if the inputs are empty
       if(empty($amount) || empty($type) || empty($description)){
-        $errors[] = "all inputs are required!";
+        $errors[] = "All fields are required.";
       }
         if (strlen($description) > 255) {
-        $errors[] = "Description is too long.";
+        $errors[] = "Description must not exceed 255 characters.";
        }
 
       #check list of errors 
       if(empty($errors)){
             update($userId,$transactionId,$amount,$type,$description,$date);
+            $_SESSION['success'] = "Transaction updated successfully.";
             header("Location: index.php?action=dashboard");
             exit;
       }else{
@@ -92,8 +94,9 @@ function editPage(){
 
   function deleteAction(){
     $transactionId = $_GET['id'];
-    $userId = $_SESSION['user_id'];
+    $userId = $_SESSION['userId'];
     destroy($transactionId,$userId);
+    $_SESSION['success'] = "Transaction deleted successfully.";
     header("Location: index.php?action=dashboard");
     exit;
   }
