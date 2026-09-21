@@ -35,7 +35,7 @@ ob_start();
     
       
         <div class="header">
-               <h1 class="title">Welcome, <i><?= ucfirst($_SESSION['username']) ?></i></h1>
+               <h1 class="title">Welcome, <i><?= htmlspecialchars(ucfirst($_SESSION['username'])) ?></i></h1>
                <a class="logOut" href="index.php?action=logout"><i class="ri-logout-box-r-line"></i> Log out</a>
         </div>
         
@@ -79,8 +79,19 @@ ob_start();
                 <div class="data"><?= htmlspecialchars($transaction->type) ?></div>
                 <div class="data"><?= htmlspecialchars($transaction->description) ?></div>
                  <div class="data">
+                    <form  
+                    action="index.php?action=delete"
+                    method="post" 
+                    onsubmit="return confirm('Are you sure you want to delete this transaction?');">
+                    
+                            <input type="hidden" name="id" value="<?= $transaction->id ?>">
+                            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+                            <button id="delete" type="submit">
+                                <i class="ri-delete-bin-line"></i>
+                                 Delete
+                            </button>
+                    </form>
                       <a id="edit" href="index.php?action=edit&id=<?= $transaction->id ?>"><i class="ri-pencil-fill"></i> Edit</a>
-                      <a id="delete" href="index.php?action=delete&id=<?= $transaction->id ?>" onclick="return confirm('Are you sure you want to delete this transaction?');"><i class="ri-delete-bin-line"></i> Delete</a>
                  </div>
             </div>
 

@@ -53,16 +53,27 @@ function createAction(){
 function editPage(){
      $userId = $_SESSION['userId'];
      $transactionId = $_GET['id'];
+     if(!$transactionId){
+      http_response_code(404);
+      exit("Transaction not found");
+     }
      $userTransaction = getUserTransaction($userId,$transactionId);
      require_once 'view/edit.php';
   }
 
   function updateAction(){
+   
      $errors = [];
     if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-        header("location: index.php?action=update");
+        header("location: index.php?action=dashboard");
         exit;
     }
+
+    if(!isset($_SESSION['csrf_token']) || !isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'],$_POST['csrf_token'])){
+      http_response_code(405);
+      exit("Method Not Allowed");
+    }
+
     $userId = $_SESSION['userId']; 
     $transactionId = $_POST['transactionId'];
     $type = trim($_POST['type'] ?? '');
@@ -93,7 +104,14 @@ function editPage(){
   }
 
   function deleteAction(){
-    $transactionId = $_GET['id'];
+       if($_SERVER['REQUEST_METHOD'] !== "POST"){
+                        http_response_code(405);
+                        exit("Methode not allowed");
+          }
+    if(!isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'],$_POST['csrf_token'])){
+      die("Invalid CSRF token");
+    }
+    $transactionId = $_POST['id'];
     $userId = $_SESSION['userId'];
     destroy($transactionId,$userId);
     $_SESSION['success'] = "Transaction deleted successfully.";

@@ -1,11 +1,14 @@
 <?php   
 
+    require_once __DIR__ . '/vendor/autoload.php';
 
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
 
     session_start();
+    if(!isset($_SESSION['csrf_token'])){
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
 
     require_once 'controller/transactionsController.php';
     require_once 'controller/authController.php';

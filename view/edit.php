@@ -9,6 +9,7 @@ ob_start();
         <form class="createForm" action="index.php?action=update" method="post">
             <h2>Edit Transaction</h2>
             <div class="inputBox">
+                <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                 <input type="hidden" name="transactionId" value="<?= htmlspecialchars($userTransaction->id) ?>">
                 <label for="amount">Amount *</label>
                 <input class="amount" id="amount" type="number" name="amount" value="<?= htmlspecialchars($userTransaction->amount) ?>" required>
