@@ -46,7 +46,7 @@ function registerAction(){
 
       #check if email already exist
       if(emailExist($email)){
-        $errors[] = "An account with this email already exists.";
+        $errors[] = "Unable to create the account with these details.";
       }
 
 
@@ -57,6 +57,7 @@ function registerAction(){
         $userId = createUser($name,$email,$passwordHash);
         #prepare the session when the register success
         if($userId){
+            session_regenerate_id(true);
             $_SESSION['userId'] = $userId;
             $_SESSION['username'] = $name;
             header("Location: index.php?action=dashboard");
@@ -102,16 +103,14 @@ function loginAction(){
 
       if($user){
           if(password_verify($password,$user->password)){
-            
+            session_regenerate_id(true);
             $_SESSION['username'] = $user->name;
             $_SESSION['userId'] = $user->id;
             header("Location: index.php?action=dashboard");
             exit; 
-      }else{
-        $errors[] = "The password is incorrect.";
       }
       }else{
-            $errors[] = "No account was found with this email address.";
+            $errors[] = "Invalid email or password.";
       }
       
 

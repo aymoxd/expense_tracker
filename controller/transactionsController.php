@@ -3,8 +3,11 @@ require_once 'model/transactions.php';
 
 
 function dashboardAction(){
+    #get the search word from get
+    $search = trim($_GET['search'] ?? '');
+    $type = $_GET['type'] ?? '';
     $userId = $_SESSION['userId'];
-    $transactions =  getTransactions($userId);
+    $transactions =  getTransactions($userId,$search,$type);
     $income = getIncome($userId);
     $expense = getExpense($userId);
     $curentBalance = $income - $expense;
@@ -34,6 +37,21 @@ function createAction(){
       }
         if (strlen($description) > 255) {
         $errors[] = "Description must not exceed 255 characters.";
+       }
+       
+       #chek the amount 
+       if(!is_numeric($amount)){
+        $errors[] = "invalid amount";
+       }elseif((float)$amount > 10000000){
+         $errors[] = "Amount is too large.";
+       }elseif((float)$amount <= 0){
+         $errors[] = "Amount must be greater than zero.";
+       }
+
+       #check the type
+       $allowedTypes = ['expense','income'];
+       if(!in_array($type,$allowedTypes,true)){
+               $errors[] = "Invalid transaction type.";
        }
 
       #check list of errors 
@@ -90,12 +108,38 @@ function editPage(){
         $errors[] = "Description must not exceed 255 characters.";
        }
 
+        #chek the amount 
+       if(!is_numeric($amount)){
+        $errors[] = "invalid amount";
+       }elseif((float)$amount > 10000000){
+         $errors[] = "Amount is too large.";
+       }elseif((float)$amount <= 0){
+         $errors[] = "Amount must be greater than zero.";
+       }
+
+       #check the type
+       $allowedTypes = ['expense','income'];
+       if(!in_array($type,$allowedTypes,true)){
+               $errors[] = "Invalid transaction type.";
+       }
+
       #check list of errors 
       if(empty($errors)){
+            #check if user change data or not
+            $oldTransaction = getUserTransaction($userId,$transactionId);
+            if($oldTransaction->amount !== $amount ||
+               $oldTransaction->type !== $type ||
+               $oldTransaction->description !== $description
+            ){
             update($userId,$transactionId,$amount,$type,$description,$date);
             $_SESSION['success'] = "Transaction updated successfully.";
             header("Location: index.php?action=dashboard");
             exit;
+            }else{
+            header("Location: index.php?action=dashboard");
+            exit;
+            }
+           
       }else{
              $_SESSION['errors'] = $errors;
              header("Location: index.php?action=update");

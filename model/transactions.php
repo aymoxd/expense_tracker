@@ -3,10 +3,22 @@
 require_once 'config/db.php';
 
 
-function getTransactions($userId){
+function getTransactions($userId ,$search = '',$type = ''){
     global $pdo;
-    $sqlState = $pdo->prepare("SELECT * FROM transactions WHERE user_id = ? ORDER BY id DESC");
-    $sqlState->execute([ $userId ]);
+    $sql = "SELECT * FROM transactions WHERE user_id = ?";
+    $params = [$userId];
+    #if $search not empty we use it 
+    if($search !== ''){
+        $sql .= " AND description LIKE ?";
+        $params[] = "%$search%";
+    }
+    if($type !== ''){
+        $sql .= " AND type = ?";
+        $params[] = $type;
+    }
+    $sql .= " ORDER BY id DESC";
+    $sqlState = $pdo->prepare($sql);
+    $sqlState->execute( $params );
     return $sqlState->fetchAll(PDO::FETCH_OBJ);
 }
 

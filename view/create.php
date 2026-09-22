@@ -11,6 +11,22 @@ ob_start();
 ?>
 
     <section class="createContainer">
+
+          <?php if (!empty($_SESSION['errors'])): ?>
+          <div class="authAlert authAlert--error" role="alert" aria-live="assertive">
+            <i class="ri-error-warning-line" aria-hidden="true"></i>
+            <div>
+              <p class="authAlert__title">Unable to create Transaction</p>
+              <ul>
+                <?php foreach ($_SESSION['errors'] as $error): ?>
+                  <li><?= htmlspecialchars($error) ?></li>
+                <?php endforeach; ?>
+              </ul>
+            </div>
+          </div>
+          <?php unset($_SESSION['errors']); ?>
+        <?php endif; ?>
+
         <form class="createForm" action="index.php?action=store" method="post">
             <h2>Add Transaction</h2>
             <div class="inputBox">

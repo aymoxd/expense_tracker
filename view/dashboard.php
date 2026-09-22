@@ -60,8 +60,21 @@ ob_start();
         </div> 
        
 
-
+        <div>
         <h2>Transactions</h2>
+        <div>
+            <form action="index.php?action=dashboard" method="get">
+                    <input type="text" name="search" placeholder="search..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+                    <select name="type" id="">
+                        <option value="">All</option>
+                        <option value="income" <?= $_GET['type'] ?? '' === 'income' ? 'selected' : ''?> >Income</option>
+                        <option value="expense" <?= $_GET['type'] ?? '' === 'expense' ? 'selected' : ''?> >Expense</option>
+                    </select>
+                    <input type="submit" value="search" >
+            </form>
+        </div>
+        </div>
+
 
        <!-- table  -->
         <div class="table">
@@ -79,7 +92,8 @@ ob_start();
                 <div class="data"><?= htmlspecialchars($transaction->type) ?></div>
                 <div class="data"><?= htmlspecialchars($transaction->description) ?></div>
                  <div class="data">
-                    <form  
+
+                 <form  
                     action="index.php?action=delete"
                     method="post" 
                     onsubmit="return confirm('Are you sure you want to delete this transaction?');">
