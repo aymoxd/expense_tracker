@@ -2,6 +2,8 @@
 
 require_once 'model/auth.php';
 
+
+
 //requireLogin function
 function requireLogin(){
     if(!isset($_SESSION['userId'])){
@@ -9,6 +11,17 @@ function requireLogin(){
       exit;
     }
 }
+
+function requireAdmin(){
+ 
+  if(!isset($_SESSION['userId']) || ($_SESSION['role'] ?? '') !== 'admin'){
+     header("Location: index.php?action=dashboard");
+     exit;
+  }
+}
+
+
+
 
 function logoutAction(){
    $_SESSION = [];
@@ -34,10 +47,15 @@ function registerAction(){
       $name = trim($_POST['name']);
       $email = trim($_POST['email']);
       $password = trim($_POST['password']);
+      $confirmPassword = trim($_POST['confirmPassword']);
 
       #check if the inputs are empty
-      if(empty($name) || empty($email) || empty($password)){
+      if(empty($name) || empty($email) || empty($password) || empty($confirmPassword)){
         $errors[] = "All fields are required.";
+      }
+      #check if password match the confirm password
+      if($password !== $confirmPassword){
+        $errors[] = "you should confirm the password!.";
       }
       #check the password format
        if(strlen($password) < 6){
@@ -101,19 +119,20 @@ function loginAction(){
         
       $user = getUserByEmail($email);
 
-      if($user){
-          if(password_verify($password,$user->password)){
+          if($user && password_verify($password,$user->password)){
             session_regenerate_id(true);
             $_SESSION['username'] = $user->name;
             $_SESSION['userId'] = $user->id;
+            $_SESSION['role'] = $user->role;
+           
+            if($user->role == 'admin'){
+                header("Location: index.php?action=admin");
+                exit;
+            }
             header("Location: index.php?action=dashboard");
             exit; 
-      }
       }else{
             $errors[] = "Invalid email or password.";
-      }
-      
-
       }
       
       if(!empty($errors)){
@@ -122,3 +141,4 @@ function loginAction(){
         exit;
       }
 }
+ }

@@ -31,6 +31,7 @@ ob_start();
             <label for="password">Password *</label>
             <input id="password" type="password" name="password" autocomplete="current-password" required>
         </div>
+        <a href="">forgot password ?</a>
         <input class="formBTN" type="submit" name="login" value="Log In">
         <p class="formLink">Don't have an account? <a href="index.php?action=showRegister">Create an account</a></p>
     </form>

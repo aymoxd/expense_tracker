@@ -11,11 +11,11 @@ function dashboardAction(){
     $income = getIncome($userId);
     $expense = getExpense($userId);
     $curentBalance = $income - $expense;
-    require_once 'view/dashboard.php';
+    require_once 'view/user/dashboard.php';
 }
 
 function create(){
-    require_once 'view/create.php';
+    require_once 'view/user/create.php';
 }
 
 function createAction(){
@@ -76,7 +76,7 @@ function editPage(){
       exit("Transaction not found");
      }
      $userTransaction = getUserTransaction($userId,$transactionId);
-     require_once 'view/edit.php';
+     require_once 'view/user/edit.php';
   }
 
   function updateAction(){

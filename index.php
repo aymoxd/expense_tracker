@@ -1,4 +1,8 @@
 <?php   
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+   
    
 
     require_once __DIR__ . '/vendor/autoload.php';
@@ -13,6 +17,7 @@
 
     require_once 'controller/transactionsController.php';
     require_once 'controller/authController.php';
+    require_once 'controller/adminController.php';
 
     //create router
         $action = $_GET['action'] ?? 'dashboard';
@@ -21,6 +26,9 @@
             case 'dashboard':
                      requireLogin();
                      dashboardAction();
+            break;
+              case 'admin':
+                     adminDashboard();
             break;
             case 'create':
                      requireLogin();
@@ -57,6 +65,10 @@
             case 'logout':
                      requireLogin();
                      logoutAction();
+            break;
+             case 'adminUsers':
+                     requireLogin();
+                     displayUsers();
             break;
 
 

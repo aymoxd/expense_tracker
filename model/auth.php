@@ -4,7 +4,7 @@ require_once 'config/db.php';
 
 
 function emailExist($email){
-    global $pdo;
+      global $pdo;
       #check if email already exist
       $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
       $stmt->execute([ $email ]);
@@ -24,7 +24,7 @@ function createUser($name,$email,$password){
 
 function getUserByEmail($email){
       global $pdo;
-      $stmt = $pdo->prepare("SELECT id,name,email,password FROM users WHERE email = ?");
+      $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
       $stmt->execute([ $email ]);
       return $stmt->fetch(PDO::FETCH_OBJ);
 }

@@ -37,6 +37,10 @@ ob_start();
             <label for="password">Password *</label>
             <input class="password" id="password" type="password" name="password" autocomplete="new-password" minlength="6" required>
         </div>
+          <div class="inputBox">
+            <label for="password">Confirm Password *</label>
+            <input class="password" id="password" type="password" name="confirmPassword" autocomplete="new-password" minlength="6" required>
+        </div>
       
         <input class="formBTN" type="submit" name="register" value="Register">
         <p class="formLink">Already have an account? <a href="index.php?action=showLogin">Log in</a></p>

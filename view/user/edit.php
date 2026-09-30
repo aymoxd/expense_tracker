@@ -31,4 +31,4 @@ ob_start();
     </section>
 
 <?php $content = ob_get_clean() ?>
-<?php require_once 'layout.php'; ?>
+<?php require_once 'view/user/layout.php'; ?>

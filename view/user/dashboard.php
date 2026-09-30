@@ -36,7 +36,6 @@ ob_start();
       
         <div class="header">
                <h1 class="title">Welcome, <i><?= htmlspecialchars(ucfirst($_SESSION['username'])) ?></i></h1>
-               <a class="logOut" href="index.php?action=logout"><i class="ri-logout-box-r-line"></i> Log out</a>
         </div>
         
        <div class="numbersBox">
@@ -48,12 +47,12 @@ ob_start();
                  <div class="box">
                 <i class="ri-arrow-up-circle-line icon"></i>
                 <p>Expense</p>
-                <h1 class="digit"><?= htmlspecialchars($expense) ?> MAD</h1>
+                <h1 class="digit digit-expense">-<?= htmlspecialchars($expense) ?> MAD</h1>
             </div>
             <div class="box">
                 <i class="ri-arrow-down-circle-line icon"></i>
                 <p>Income</p>
-                <h1 class="digit"><?=htmlspecialchars($income) ?> MAD</h1>
+                <h1 class="digit digit-income"><?=htmlspecialchars($income) ?> MAD</h1>
             </div>
           
              
@@ -120,4 +119,4 @@ ob_start();
     </div>
 
 <?php $content = ob_get_clean(); ?>
-<?php include_once 'view/layout.php'; ?>
+<?php include_once 'view/user/layout.php'; ?>
