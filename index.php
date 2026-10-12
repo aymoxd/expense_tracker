@@ -70,11 +70,17 @@ error_reporting(E_ALL);
                      requireLogin();
                      displayUsers();
             break;
+              case 'adminUserDetail':
+                     requireLogin();
+                     displayUserDetaille();
+            break;
+                case 'adminDeleteUser':
+                     adminDeleteUser();
+            break;
+            
+                default :
+                break;
 
-
-            default:
-            header("Location: index.php?action=dashboard");
-            exit;
 
         
         }

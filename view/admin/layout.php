@@ -14,10 +14,16 @@
 
     <div class="admin-layout user-layout">
         <aside id="user-sidebar" class="admin-sidebar user-sidebar" aria-label="Admin navigation">
-            <div class="admin-brand user-brand">
-                <i class="ri-shield-user-line user-brand-icon" aria-hidden="true"></i>
-                <span>Admin Panel</span>
-            </div>
+
+            <div class="admin-user">
+             <i class="ri-admin-line"></i>
+             <a href="index.php?action=adminProfile">
+                <strong>
+                    <?= htmlspecialchars($_SESSION['username']) ?>
+                </strong>
+                <small>Administrator</small>
+             </a>
+           </div>
 
             <p class="user-nav-label">Workspace</p>
             <nav class="admin-nav user-nav">
@@ -25,7 +31,7 @@
                     <i class="ri-dashboard-line" aria-hidden="true"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="index.php?action=adminUsers" class="admin-nav-link user-nav-link<?= ($_GET['action'] ?? '') === 'users' ? ' active' : '' ?>"<?= ($_GET['action'] ?? '') === 'users' ? ' aria-current="page"' : '' ?>>
+                <a href="index.php?action=adminUsers" class="admin-nav-link user-nav-link<?= ($_GET['action'] ?? '') === 'adminUsers' ? ' active' : '' ?>"<?= ($_GET['action'] ?? '') === 'adminUsers' ? ' aria-current="page"' : '' ?>>
                     <i class="ri-user-line" aria-hidden="true"></i>
                     <span>Users</span>
                 </a>
@@ -33,19 +39,8 @@
                     <i class="ri-wallet-3-line" aria-hidden="true"></i>
                     <span>Transactions</span>
                 </a>
-                <a href="index.php?action=dashboard" class="admin-nav-link user-nav-link">
-                    <i class="ri-arrow-left-line" aria-hidden="true"></i>
-                    <span>Back to App</span>
-                </a>
-                <hr>
-                 <a href="index.php?action=dashboard" class="admin-nav-link user-nav-link">
-                    <i class="ri-arrow-left-line" aria-hidden="true"></i>
-                    <span>Profile</span>
-                </a>
-                   <a href="index.php?action=dashboard" class="admin-nav-link user-nav-link">
-                    <i class="ri-arrow-left-line" aria-hidden="true"></i>
-                    <span>Setting</span>
-                </a>
+              
+               
             </nav>
 
             <div class="user-sidebar-bottom">

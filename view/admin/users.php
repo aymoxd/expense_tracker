@@ -9,13 +9,7 @@
         <h1>Manage Users</h1>
         <p class="users-page-intro">View account details and activity across your workspace.</p>
     </div>
-    <div class="admin-user">
-        <i class="ri-admin-line" aria-hidden="true"></i>
-        <a href="index.php?action=adminProfile">
-            <strong><?= htmlspecialchars($_SESSION['username'] ?? 'Admin', ENT_QUOTES, 'UTF-8') ?></strong>
-            <small>Administrator</small>
-        </a>
-    </div>
+   
 </header>
 
 <section class="admin-section users-section" aria-labelledby="users-heading">
@@ -24,22 +18,12 @@
             <p class="admin-label">Directory</p>
             <h2 id="users-heading">Users <span><?= htmlspecialchars($totalUsers) ?></span></h2>
         </div>
-        <form class="users-filters" method="get" action="index.php" role="search">
-            <input type="hidden" name="action" value="users">
+        <form class="users-filters"  action="index.php" method="get" role="search">
+            <input type="hidden" name="action" value="adminUsers">
             <label class="users-search">
                 <i class="ri-search-line" aria-hidden="true"></i>
                 <span class="sr-only">Search users</span>
                 <input type="search" name="search" placeholder="Search users..." value="<?= htmlspecialchars((string) ($_GET['search'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
-            </label>
-            <label class="users-role-filter">
-                <span class="sr-only">Filter by role</span>
-                <select name="role" onchange="this.form.submit()">
-                    <?php $selectedRole = (string) ($_GET['role'] ?? ''); ?>
-                    <option value="" <?= $selectedRole === '' ? 'selected' : '' ?>>All roles</option>
-                    <option value="user" <?= $selectedRole === 'user' ? 'selected' : '' ?>>User</option>
-                    <option value="admin" <?= $selectedRole === 'admin' ? 'selected' : '' ?>>Admin</option>
-                </select>
-                <i class="ri-arrow-down-s-line" aria-hidden="true"></i>
             </label>
             <button class="users-search-button" type="submit">Search</button>
         </form>
@@ -68,7 +52,7 @@
                     <td class="users-email"><?= htmlspecialchars($user->email, ENT_QUOTES, 'UTF-8') ?></td>
                     <td><span class="users-role <?= strtolower($user->role) === 'admin' ? 'users-role-admin' : '' ?>"><?= htmlspecialchars(ucfirst($user->role), ENT_QUOTES, 'UTF-8') ?></span></td>
                     <td class="users-date"><?= $user->created_at ? htmlspecialchars( date('M j, Y',(string)strtotime($user->created_at)) ,ENT_QUOTES,'UTF-8') : "---" ?></td>
-                    <td class="users-actions"><a href="index.php?action=usersDetaille" aria-label="User actions for <?= htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8') ?>" title="User actions"><i class="ri-eye-line" aria-hidden="true"></i></a></td>
+                    <td class="users-actions"><a href="index.php?action=adminUserDetail&id=<?= (int) $user->id ?>" aria-label="User actions for <?= htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8') ?>" title="User actions for <?= htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8') ?>"><i class="ri-eye-line" aria-hidden="true"></i></a></td>
                 </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -76,7 +60,23 @@
         </table>
     </div>
 
-    
+    <div class="pagination">
+        <?php if($page > 1): ?>
+            <a href="index.php?action=adminUsers&page=<?= htmlspecialchars( $page - 1 ) ?>">previous</a>
+        <?php endif; ?>
+        <!-- create the pages -->
+         <?php for($i = 1; $i <= $totalPages; $i++): ?>
+            <a 
+            href="index.php?action=adminUsers&page=<?= htmlspecialchars($i) ?>"
+            class="<?= ($page === $i) ? 'active' : '' ?>"
+            > <?= $i ?> </a>
+         <?php endfor; ?>
+          <?php if($page < $totalPages): ?>
+           <a href="index.php?action=adminUsers&page=<?= htmlspecialchars( $page + 1 ) ?>">next</a>
+          <?php endif; ?>
+    </div>
+
+
 </section>
 <?php
     $content = ob_get_clean();

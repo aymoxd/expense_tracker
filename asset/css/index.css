@@ -377,6 +377,23 @@ form .formBTN:active { transform: translateY(1px); box-shadow: none; }
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  padding: 10px 3px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-bottom: 20px;
+   transition:
+    color var(--transition),
+    background var(--transition),
+    border-color var(--transition);
+}
+.admin-user a{
+  text-decoration: none;
+}
+
+.admin-user:hover {
+  background: var(--surface-subtle);
+  color: var(--text);
+  outline: 1px solid var(--border);
 }
 
 .admin-user > i {

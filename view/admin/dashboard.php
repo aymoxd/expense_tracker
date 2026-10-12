@@ -12,16 +12,7 @@ ob_start();
             <h1>Dashboard</h1>
         </div>
 
-        <div class="admin-user">
-            <i class="ri-admin-line"></i>
-
-            <a href="index.php?action=adminProfile">
-                <strong>
-                    <?= htmlspecialchars($_SESSION['username']) ?>
-                </strong>
-                <small>Administrator</small>
-            </a>
-        </div>
+      
 
     </header>
 
@@ -179,6 +170,24 @@ ob_start();
                     <?php endif; ?>
                 </tbody>
             </table>
+
+        <div class="pagination">
+        <?php if($page > 1): ?>
+            <a href="index.php?action=admin&page=<?= htmlspecialchars( $page - 1 ) ?>">previous</a>
+        <?php endif; ?>
+        <!-- create the pages -->
+         <?php for($i = 1; $i <= $totalPages; $i++): ?>
+            <a 
+            href="index.php?action=admin&page=<?= htmlspecialchars($i) ?>"
+            class="<?= ($page === $i) ? 'active' : '' ?>"
+            > <?= $i ?> </a>
+         <?php endfor; ?>
+          <?php if($page < $totalPages): ?>
+           <a href="index.php?action=admin&page=<?= htmlspecialchars( $page + 1 ) ?>">next</a>
+          <?php endif; ?>
+    </div>
+
+
         </div>
 
     </section>

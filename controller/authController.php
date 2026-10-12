@@ -53,6 +53,9 @@ function registerAction(){
       if(empty($name) || empty($email) || empty($password) || empty($confirmPassword)){
         $errors[] = "All fields are required.";
       }
+       if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+        $errors[] = "Email is not valid.!";
+      }
       #check if password match the confirm password
       if($password !== $confirmPassword){
         $errors[] = "you should confirm the password!.";

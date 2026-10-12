@@ -27,9 +27,9 @@ function getTotalExpense(){
     return $sql->fetchColumn();
 }
 
-function getRecentActivity(){
+function getRecentActivity($limit , $offset){
     global $pdo;
-    $sql = $pdo->query("SELECT 
+    $sql = $pdo->prepare("SELECT 
                           users.name ,
                           transactions.type ,
                           transactions.created_at ,
@@ -38,13 +38,48 @@ function getRecentActivity(){
                           transactions.user_id = users.id
                           ORDER BY transactions.created_at 
                           DESC
-                          LIMIT 10");
+                          LIMIT ?
+                          OFFSET ?");
+    $sql->bindValue(1 , $limit ,PDO::PARAM_INT);
+    $sql->bindValue(2 , $offset ,PDO::PARAM_INT);
+    $sql->execute();
     return $sql->fetchAll(PDO::FETCH_OBJ);
 
 }
 
-function getUsers(){
+function getUsers($limit,$offset,$search = ''){
     global $pdo;
-    $sql = $pdo->query("SELECT name,email,created_at,role FROM users ORDER BY created_at DESC");
-    return $sql->fetchAll(pdo::FETCH_OBJ);
+    $sql = "SELECT id,name,email,created_at,role FROM users ";
+
+    if($search !== ''){
+      $sql .= " WHERE name LIKE :search";
+    }
+
+    $sql .= " ORDER BY created_at DESC LIMIT  :limit OFFSET  :offset";
+
+    $sql = $pdo->prepare($sql);
+     if($search !== ''){
+     $sql->bindValue(':search', '%' . $search . '%' ,PDO::PARAM_STR);
+    }
+    $sql->bindValue(':limit',(int) $limit,PDO::PARAM_INT);
+    $sql->bindValue(':offset',(int) $offset,PDO::PARAM_INT);
+
+    $sql->execute();
+    return $sql->fetchAll(PDO::FETCH_OBJ);
+}
+
+function getUser($id){
+    global $pdo;
+    $sql = $pdo->prepare("SELECT id, name, email, role, created_at
+                          FROM users
+                          WHERE id = ?");
+    $sql->execute([ $id ]);
+    return $sql->fetch(PDO::FETCH_OBJ);
+}
+
+function deleteUser($userId){
+    global $pdo;
+    $sql = $pdo->prepare("DELETE from users WHERE id = ?");
+    $sql->execute([ $userId ]);
+    return $sql->rowCount() > 0;
 }
