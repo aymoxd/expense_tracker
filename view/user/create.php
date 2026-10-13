@@ -28,6 +28,7 @@ ob_start();
         <?php endif; ?>
 
         <form class="createForm" action="index.php?action=store" method="post">
+          <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
             <h2>Add Transaction</h2>
             <div class="inputBox">
                 <label for="amount">Amount *</label>

@@ -83,7 +83,7 @@ ob_start();
             <?php foreach($transactions as $transaction): ?>
 
             <div class="row">
-                <div class="data">  <?= htmlspecialchars($transaction->created_at) ?>  </div>
+                <div class="data">  <?= htmlspecialchars(date("M, d Y",strtotime($transaction->created_at))) ?>  </div>
                 <div class="data">
                      <?php echo $transaction->type == 'income' ? '+' : '-' ; ?>
                      <?= htmlspecialchars($transaction->amount) ?> MAD
@@ -114,6 +114,21 @@ ob_start();
            <?php else:?>
                     <h1 class="tableVide">No transactions yet.</h1>
              <?php endif; ?>
+        </div>
+         <div class="pagination">
+        <?php if($page > 1): ?>
+            <a href="index.php?action=dashboard&page=<?= htmlspecialchars( $page - 1 ) ?>">previous</a>
+        <?php endif; ?>
+        <!-- create the pages -->
+         <?php for($i = 1; $i <= $totalPages; $i++): ?>
+            <a 
+            href="index.php?action=dashboard&page=<?= htmlspecialchars($i) ?>"
+            class="<?= ($page === $i) ? 'active' : '' ?>"
+            > <?= $i ?> </a>
+         <?php endfor; ?>
+          <?php if($page < $totalPages): ?>
+           <a href="index.php?action=dashboard&page=<?= htmlspecialchars( $page + 1 ) ?>">next</a>
+          <?php endif; ?>
         </div>
 
     </div>

@@ -3,9 +3,16 @@
 require_once 'config/db.php';
 
 
-function getTransactions($userId ,$search = '',$type = ''){
+function getTotalTransactions($userId){
+        global $pdo;
+        $sql = $pdo->prepare("SELECT COUNT(*) FROM transactions WHERE user_id = ?");
+        $sql->execute([ $userId ]);
+        return $sql->fetchColumn();
+}
+
+function getTransactions($userId,$limit,$offset ,$search = '',$type = ''){
     global $pdo;
-    $sql = "SELECT * FROM transactions WHERE user_id = ?";
+    $sql = "SELECT * FROM transactions WHERE user_id = ? ";
     $params = [$userId];
     #if $search not empty we use it 
     if($search !== ''){
@@ -16,9 +23,15 @@ function getTransactions($userId ,$search = '',$type = ''){
         $sql .= " AND type = ?";
         $params[] = $type;
     }
-    $sql .= " ORDER BY id DESC";
+    $sql .= " ORDER BY id DESC LIMIT ? OFFSET ?";
+    
     $sqlState = $pdo->prepare($sql);
-    $sqlState->execute( $params );
+    foreach($params as $key => $value){
+        $sqlState->bindValue($key + 1, $value);
+    }
+    $sqlState->bindValue(count($params) + 1,(int) $limit,PDO::PARAM_INT);
+    $sqlState->bindValue(count($params) + 2,(int) $offset,PDO::PARAM_INT);
+    $sqlState->execute();
     return $sqlState->fetchAll(PDO::FETCH_OBJ);
 }
 

@@ -34,6 +34,11 @@ error_reporting(E_ALL);
                      requireLogin();
                      create();
             break;
+             case 'userTransactions':
+                     requireLogin();
+                     displayUserTransactions();
+            break;
+            
             case 'store':
                      requireLogin();
                      createAction();

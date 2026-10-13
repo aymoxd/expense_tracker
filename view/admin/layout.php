@@ -39,6 +39,11 @@
                     <i class="ri-wallet-3-line" aria-hidden="true"></i>
                     <span>Transactions</span>
                 </a>
+                  <a href="index.php?action=dashboard" class="admin-nav-link user-nav-link<?= ($_GET['action'] ?? '') === 'dashboard' ? ' active' : '' ?>">
+                    <i class="ri-line" aria-hidden="true"></i>
+                    <span>go to app</span>
+                </a>
+             
               
                
             </nav>

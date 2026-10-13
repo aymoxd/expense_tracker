@@ -3,7 +3,32 @@
     
     ob_start();
 ?>
+ <?php if (!empty($_SESSION['success'])): ?>
+            <div class="noerror flashMessage" role="status" aria-live="polite">
+                <?= htmlspecialchars($_SESSION['success']) ?>
+                <button class="closeMessage" type="button" aria-label="Dismiss message" onclick="this.closest('.flashMessage').remove()">
+                    <i class="ri-close-line" aria-hidden="true"></i>
+                </button>
+            </div>
+            <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
+
+        <?php if (!empty($_SESSION['errors'])): ?>
+            <div class="error flashMessage" role="alert" aria-live="assertive">
+                <ul>
+                    <?php foreach ($_SESSION['errors'] as $error): ?>
+                        <li><?= htmlspecialchars($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+                <button class="closeMessage" type="button" aria-label="Dismiss message" onclick="this.closest('.flashMessage').remove()">
+                    <i class="ri-close-line" aria-hidden="true"></i>
+                </button>
+            </div>
+            <?php unset($_SESSION['errors']); ?>
+        <?php endif; ?>
 <header class="admin-header">
+
+
     <div>
         <p class="admin-label">Administration</p>
         <h1>Manage Users</h1>

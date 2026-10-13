@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/expens_tracker/asset/css/index.css">
     <link rel="stylesheet" href="/expens_tracker/asset/css/auth.css">
     <link rel="stylesheet" href="/expens_tracker/asset/css/user-layout.css">
+    <link rel="stylesheet" href="/expens_tracker/asset/css/admin-users.css">
     <?php require_once 'view/includes/header_libraries.php'; ?>
     <title><?= $title ?></title>
 </head>
@@ -27,6 +28,19 @@
                 <a class="user-nav-link" href="index.php?action=create">
                     <i class="ri-add-circle-line" aria-hidden="true"></i><span>Add transaction</span>
                 </a>
+                   <a class="user-nav-link" href="index.php?action=userTransactions">
+                    <i class="ri-triangle-line" aria-hidden="true"></i><span>All transactions</span>
+                </a>
+                <?php if (($_SESSION['role'] ?? '') === 'admin'): ?>
+                    <a href="index.php?action=admin">
+                       
+                    </a>
+                       <a class="user-nav-link" href="index.php?action=admin">
+                        <i class="ri-dashboard-line"></i>
+
+                         <span> Admin Panel</span>
+                </a>
+                <?php endif; ?>
             </nav>
 
             <div class="user-sidebar-bottom">

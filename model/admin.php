@@ -3,10 +3,19 @@
 require_once 'config/db.php';
 
 
-function getTotalUsers(){
+function getTotalUsers($search = ''){
     global $pdo;
-    $sql = $pdo->query("SELECT COUNT(*) FROM users");
-    return $sql->fetchColumn();
+    $sql = "SELECT COUNT(*) FROM users";
+    if($search !== ''){
+      $sql .= " WHERE name LIKE :search";
+    }
+
+    $sql = $pdo->prepare($sql);
+     if($search !== ''){
+      $sql->bindValue(':search','%' . $search . '%',PDO::PARAM_STR);
+    }
+    $sql->execute();
+    return (int) $sql->fetchColumn();
 }
 
 function getTotalTransaction(){
@@ -33,7 +42,8 @@ function getRecentActivity($limit , $offset){
                           users.name ,
                           transactions.type ,
                           transactions.created_at ,
-                          transactions.amount 
+                          transactions.amount ,
+                          transactions.description
                           FROM transactions JOIN users ON
                           transactions.user_id = users.id
                           ORDER BY transactions.created_at 

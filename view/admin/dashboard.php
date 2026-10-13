@@ -7,6 +7,32 @@ ob_start();
 
 <header class="admin-header">
 
+
+    <?php if (!empty($_SESSION['success'])): ?>
+            <div class="noerror flashMessage" role="status" aria-live="polite">
+                <?= htmlspecialchars($_SESSION['success']) ?>
+                <button class="closeMessage" type="button" aria-label="Dismiss message" onclick="this.closest('.flashMessage').remove()">
+                    <i class="ri-close-line" aria-hidden="true"></i>
+                </button>
+            </div>
+            <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
+
+        <?php if (!empty($_SESSION['errors'])): ?>
+            <div class="error flashMessage" role="alert" aria-live="assertive">
+                <ul>
+                    <?php foreach ($_SESSION['errors'] as $error): ?>
+                        <li><?= htmlspecialchars($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+                <button class="closeMessage" type="button" aria-label="Dismiss message" onclick="this.closest('.flashMessage').remove()">
+                    <i class="ri-close-line" aria-hidden="true"></i>
+                </button>
+            </div>
+            <?php unset($_SESSION['errors']); ?>
+        <?php endif; ?>
+
+
         <div>
             <p class="admin-label">Administration</p>
             <h1>Dashboard</h1>
@@ -131,6 +157,7 @@ ob_start();
                         <th scope="col">User</th>
                         <th scope="col">Activity</th>
                         <th scope="col">Amount</th>
+                        <th scope="col">desc</th>
                         <th scope="col">Date</th>
                     </tr>
                 </thead>
@@ -160,6 +187,9 @@ ob_start();
                                 <td class="activity-amount <?= $isIncome ? 'activity-amount-income' : 'activity-amount-expense' ?>">
                                     <?= $isIncome ? '+' : '−' ?><?= number_format((float) $activity->amount, 2) ?> <span>MAD</span>
                                 </td>
+                                 <td class="activity-desc">
+                                   <?= ((string) $activity->description) ?>
+                                </td>
                                 <td class="activity-date">
                                     <time datetime="<?= htmlspecialchars(date(DATE_ATOM, strtotime($activity->created_at)), ENT_QUOTES, 'UTF-8') ?>">
                                         <?= htmlspecialchars(date('M j, Y · H:i', strtotime($activity->created_at)), ENT_QUOTES, 'UTF-8') ?>
@@ -185,7 +215,7 @@ ob_start();
           <?php if($page < $totalPages): ?>
            <a href="index.php?action=admin&page=<?= htmlspecialchars( $page + 1 ) ?>">next</a>
           <?php endif; ?>
-    </div>
+        </div>
 
 
         </div>

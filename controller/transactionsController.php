@@ -4,15 +4,25 @@ require_once 'model/transactions.php';
 
 function dashboardAction(){
     #get the search word from get
+    $page =  max(1,(int) ($_GET['page'] ?? 1));
+    $limit = 5;
+    $offset = ($page - 1) * $limit;
+    
     $search = trim($_GET['search'] ?? '');
     $type = $_GET['type'] ?? '';
     $userId = $_SESSION['userId'];
-    $transactions =  getTransactions($userId,$search,$type);
+
+    $totalTransactions = getTotalTransactions($userId);
+    $totalPages = ceil($totalTransactions / $limit);
+    
+    $transactions =  getTransactions($userId,$limit,$offset,$search,$type);
     $income = getIncome($userId);
     $expense = getExpense($userId);
     $curentBalance = $income - $expense;
     require_once 'view/user/dashboard.php';
 }
+
+
 
 function create(){
     require_once 'view/user/create.php';
@@ -24,6 +34,14 @@ function createAction(){
         header("location: index.php?action=create");
         exit;
     }
+    if (
+    !isset($_SESSION['csrf_token'], $_POST['csrf_token']) ||
+    !is_string($_POST['csrf_token']) ||
+    !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+     ) {
+    http_response_code(403);
+    exit('Invalid CSRF token');
+     }
     $userId = $_SESSION['userId']; 
     $type = trim($_POST['type'] ?? '');
     $amount = trim($_POST['amount'] ?? '');
@@ -70,7 +88,8 @@ function createAction(){
 
 function editPage(){
      $userId = $_SESSION['userId'];
-     $transactionId = $_GET['id'];
+     $transactionId = filter_input(INPUT_GET,'id',FILTER_VALIDATE_INT);
+ 
      if(!$transactionId){
       http_response_code(404);
       exit("Transaction not found");
@@ -87,7 +106,7 @@ function editPage(){
         exit;
     }
 
-    if(!isset($_SESSION['csrf_token']) || !isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'],$_POST['csrf_token'])){
+    if(!isset($_SESSION['csrf_token']) || !is_string($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'],$_POST['csrf_token'])){
       http_response_code(405);
       exit("Method Not Allowed");
     }
@@ -161,4 +180,23 @@ function editPage(){
     $_SESSION['success'] = "Transaction deleted successfully.";
     header("Location: index.php?action=dashboard");
     exit;
+  }
+
+
+  function displayUserTransactions(){
+    $page =  max(1,(int) ($_GET['page'] ?? 1));
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
+    
+    $userId = $_SESSION['userId'] ?? null;
+    $search = trim($_GET['search'] ?? '');
+    $type = $_GET['type'] ?? '';
+
+    $totalTransactions = getTotalTransactions($userId);
+    $totalPages = ceil($totalTransactions / $limit);
+
+
+    $totalTransactions = getTotalTransactions($userId);
+    $transactions = getTransactions($userId,$limit,$offset,$search,$type);
+    require_once 'view/user/userTransactions.php';
   }
