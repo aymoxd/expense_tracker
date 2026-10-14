@@ -23,13 +23,14 @@ ob_start();
 
         <form class="authForm" action="index.php?action=login" method="post">
         <h1>Welcome back</h1>
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
         <div class="inputBox">
             <label for="email">Email *</label>
-            <input id="email" type="email" name="email" autocomplete="email" required>
+            <input id="email" type="email" name="email" autocomplete="email"  maxlength="254" required>
         </div>
         <div class="inputBox">
             <label for="password">Password *</label>
-            <input id="password" type="password" name="password" autocomplete="current-password" required>
+            <input id="password" type="password" name="password" autocomplete="current-password"   minlength="8" maxlength="72"  required>
         </div>
         <a href="">forgot password ?</a>
         <input class="formBTN" type="submit" name="login" value="Log In">

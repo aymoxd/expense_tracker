@@ -27,13 +27,17 @@
   letter-spacing: -.04em;
   line-height: 1.15;
 }
-
+.authForm .inputBoxFlex{
+  display: flex;
+  gap: 10px;
+}
 .authForm .inputBox {
   display: flex;
   flex-direction: column;
   gap: 7px;
   margin-bottom: 19px;
 }
+
 
 .authForm label,
 .authForm .formLink { color: var(--muted); font-size: .9rem; }

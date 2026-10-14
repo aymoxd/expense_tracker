@@ -6,6 +6,29 @@ ob_start();
 ?>
 
     <section class="createContainer">
+         <?php if (!empty($_SESSION['success'])): ?>
+            <div class="noerror flashMessage" role="status" aria-live="polite">
+                <?= htmlspecialchars($_SESSION['success']) ?>
+                <button class="closeMessage" type="button" aria-label="Dismiss message" onclick="this.closest('.flashMessage').remove()">
+                    <i class="ri-close-line" aria-hidden="true"></i>
+                </button>
+            </div>
+            <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
+
+        <?php if (!empty($_SESSION['errors'])): ?>
+            <div class="error flashMessage" role="alert" aria-live="assertive">
+                <ul>
+                    <?php foreach ($_SESSION['errors'] as $error): ?>
+                        <li><?= htmlspecialchars($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+                <button class="closeMessage" type="button" aria-label="Dismiss message" onclick="this.closest('.flashMessage').remove()">
+                    <i class="ri-close-line" aria-hidden="true"></i>
+                </button>
+            </div>
+            <?php unset($_SESSION['errors']); ?>
+        <?php endif; ?>
         <form class="createForm" action="index.php?action=update" method="post">
             <h2>Edit Transaction</h2>
             <div class="inputBox">

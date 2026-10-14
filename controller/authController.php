@@ -38,19 +38,30 @@ function registerPage(){
 
 function registerAction(){
     
-    $errors = [];
-    if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-      header("Location: index.php?action=showRegister");
-      exit;
+  if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+    header("Location: index.php?action=showRegister");
+    exit;
     }
+     $token = $_POST['csrf_token'] ?? null;
 
-      $name = trim($_POST['name']);
-      $email = trim($_POST['email']);
-      $password = trim($_POST['password']);
-      $confirmPassword = trim($_POST['confirmPassword']);
+  if (
+    !isset($token) ||
+    !isset($_SESSION['csrf_token']) ||
+    !hash_equals($_SESSION['csrf_token'], $token)
+) {
+    http_response_code(403);
+    exit('Invalid CSRF token');
+}
+    
+    $errors = [];
+      $name = trim($_POST['name'] ?? '');
+      $lastName = trim($_POST['lastName'] ?? '');
+      $email = trim($_POST['email'] ?? '');
+      $password = $_POST['password'] ?? '';
+      $confirmPassword = $_POST['confirmPassword'] ?? '';
 
       #check if the inputs are empty
-      if(empty($name) || empty($email) || empty($password) || empty($confirmPassword)){
+      if(empty($name) || empty($lastName) || empty($email) || empty($password) || empty($confirmPassword)){
         $errors[] = "All fields are required.";
       }
        if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
@@ -61,10 +72,14 @@ function registerAction(){
         $errors[] = "you should confirm the password!.";
       }
       #check the password format
-       if(strlen($password) < 6){
-        $errors[] = "Password must be at least 6 characters long.";
+       if(strlen($password) < 8){
+        $errors[] = "Password must be at least 8 characters long.";
+      }
+      if(mb_strlen($name, 'UTF-8') > 50 || mb_strlen($lastName, 'UTF-8') > 50){
+        $errors[] = 'Name and last name must not exceed 50 characters.';
       }
 
+      if(strlen($name))
       #check if email already exist
       if(emailExist($email)){
         $errors[] = "Unable to create the account with these details.";
@@ -75,7 +90,7 @@ function registerAction(){
       if(empty($errors)){
         #hash the password
         $passwordHash = password_hash($password,PASSWORD_DEFAULT);
-        $userId = createUser($name,$email,$passwordHash);
+        $userId = createUser($name,$lastName,$email,$passwordHash);
         #prepare the session when the register success
         if($userId){
             session_regenerate_id(true);
@@ -108,8 +123,19 @@ function loginAction(){
       exit;
     }
 
+    $token = $_POST['csrf_token'] ?? null;
+
+  if (
+    !isset($token) ||
+    !isset($_SESSION['csrf_token']) ||
+    !hash_equals($_SESSION['csrf_token'], $token)
+) {
+    http_response_code(403);
+    exit('Invalid CSRF token');
+}
+
       $email = trim($_POST['email']);
-      $password = trim($_POST['password']);
+      $password = $_POST['password'];
 
       #check if the inputs are empty
       if(empty($email) || empty($password)){

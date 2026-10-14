@@ -21,6 +21,7 @@
             <p class="admin-label">Directory</p>
             <h2 id="users-heading">total Transactions <span><?= htmlspecialchars($totalTransactions) ?></span></h2>
         </div>
+        <!--  
         <form class="users-filters"  action="index.php" method="get" role="search">
             <input type="hidden" name="action" value="">
             <label class="users-search">
@@ -30,6 +31,7 @@
             </label>
             <button class="users-search-button" type="submit">Search</button>
         </form>
+        -->
     </div>
 
     <div class="users-table-wrap">

@@ -11,11 +11,12 @@ function emailExist($email){
       return $stmt->fetch(PDO::FETCH_OBJ);
 }
 
-function createUser($name,$email,$password){
+function createUser($name,$lastName,$email,$password){
         global $pdo;
-        $stmt = $pdo->prepare("INSERT INTO users(name,email,password) VALUES (?,?,?)");
+        $stmt = $pdo->prepare("INSERT INTO users(name,lastName,email,password) VALUES (?,?,?,?)");
          $stmt->execute([ 
                 $name,
+                $lastName,
                 $email,
                 $password
         ]);

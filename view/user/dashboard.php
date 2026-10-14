@@ -97,7 +97,7 @@ ob_start();
                     method="post" 
                     onsubmit="return confirm('Are you sure you want to delete this transaction?');">
                     
-                            <input type="hidden" name="id" value="<?= $transaction->id ?>">
+                            <input type="hidden" name="transactionId" value="<?= $transaction->id ?>">
                             <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                             <button id="delete" type="submit">
                                 <i class="ri-delete-bin-line"></i>

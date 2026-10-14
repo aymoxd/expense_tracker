@@ -52,15 +52,14 @@ function getExpense($userId){
 }
 
 
-function createTransaction($userId,$type,$amount,$description,$date){
+function createTransaction($userId,$type,$amount,$description){
         global $pdo;
-        $stmt = $pdo->prepare("INSERT INTO transactions(user_id,type,amount,description,created_at) VALUES (?,?,?,?,?)");
+        $stmt = $pdo->prepare("INSERT INTO transactions(user_id,type,amount,description) VALUES (?,?,?,?)");
         return $stmt->execute([
           $userId,
           $type,
           $amount,
-          $description,
-          $date
+          $description
         ]);
 }
 

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/expens_tracker/asset/css/index.css">
-    <link rel="stylesheet" href="/expens_tracker/asset/css/auth.css">
-    <link rel="stylesheet" href="/expens_tracker/asset/css/user-layout.css">
-    <link rel="stylesheet" href="/expens_tracker/asset/css/admin-users.css">
+    <link rel="stylesheet" href="./asset/css/index.css">
+    <link rel="stylesheet" href="./asset/css/auth.css">
+    <link rel="stylesheet" href="./asset/css/user-layout.css">
+    <link rel="stylesheet" href="./asset/css/admin-users.css">
     <?php require_once 'view/includes/header_libraries.php'; ?>
     <title><?= $title ?></title>
 </head>
@@ -60,6 +60,6 @@
         </main>
     </div>
     
-    <script src="/expens_tracker/asset/scripts/sidebar.js"></script>
+    <script src="./asset/scripts/sidebar.js"></script>
 </body>
 </html>

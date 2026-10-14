@@ -25,21 +25,29 @@ ob_start();
 
       <form class="authForm" action="index.php?action=register" method="post">
         <h1>Create your account</h1>
-          <div class="inputBox">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+        <div class="inputBoxFlex">
+            <div class="inputBox">
             <label for="name">Name *</label>
-            <input id="name" type="text" name="name" autocomplete="name" required>
+            <input id="name" type="text" name="name" autocomplete="name" maxlength="50"  required>
         </div>
+         <div class="inputBox">
+            <label for="name">Last Name *</label>
+            <input id="name" type="text" name="lastName" autocomplete="lastname" maxlength="50" required>
+        </div>
+        </div>
+         
         <div class="inputBox">
             <label for="email">Email *</label>
-            <input id="email" type="email" name="email" autocomplete="email" required>
+            <input id="email" type="email" name="email" autocomplete="email" maxlength="254" required>
         </div>
         <div class="inputBox">
             <label for="password">Password *</label>
-            <input class="password" id="password" type="password" name="password" autocomplete="new-password" minlength="6" required>
+            <input class="password" id="password" type="password" name="password" autocomplete="new-password" minlength="8" maxlength="72" required>
         </div>
           <div class="inputBox">
             <label for="password">Confirm Password *</label>
-            <input class="password" id="password" type="password" name="confirmPassword" autocomplete="new-password" minlength="6" required>
+            <input class="password" id="password" type="password" name="confirmPassword" autocomplete="new-password" minlength="8" maxlength="72" required>
         </div>
       
         <input class="formBTN" type="submit" name="register" value="Register">

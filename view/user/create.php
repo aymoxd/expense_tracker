@@ -32,7 +32,7 @@ ob_start();
             <h2>Add Transaction</h2>
             <div class="inputBox">
                 <label for="amount">Amount *</label>
-                <input class="amount" id="amount" type="number" name="amount" required>
+                <input class="amount" id="amount" type="number" name="amount"  min="0.01  max="99999999.99" step="0.01" required>
             </div>
                 <div class="inputBox"> 
                 <label for="type">Type *</label>
@@ -43,7 +43,7 @@ ob_start();
             </div>
             <div class="inputBox">
                 <label for="description">Description *</label>
-                <textarea class="description" name="description" id="description" placeholder="Description..." required></textarea>
+                <textarea class="description" name="description" id="description" placeholder="Description..."     maxlength="255" rows="3" required></textarea>
             </div>
             <button class="formBTN" type="submit">Add Transaction</button>
                 

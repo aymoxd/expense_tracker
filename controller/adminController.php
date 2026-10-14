@@ -64,12 +64,16 @@ function adminDeleteUser(){
         http_response_code(405);
         exit('Method Not Allowed');
   }
-  $token = $_POST['csrf_token'] ?? '';
+      $token = $_POST['csrf_token'] ?? null;
 
-  if(!isset($token) || !hash_equals($_SESSION['csrf_token'] , $token)){
+  if (
+    !isset($token) ||
+    !isset($_SESSION['csrf_token']) ||
+    !hash_equals($_SESSION['csrf_token'], $token)
+) {
     http_response_code(403);
     exit('Invalid CSRF token');
-  }
+}
 
   $userId = filter_input(INPUT_POST,'id',FILTER_VALIDATE_INT);
 
