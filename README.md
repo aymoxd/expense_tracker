@@ -35,18 +35,9 @@ A PHP and MySQL application for managing personal income and expenses. Users can
 
 3. Start Apache and MySQL.
 4. Create the database and tables by importing [`../database/schema.sql`](../database/schema.sql) in phpMyAdmin, or run it with the MySQL command-line client. The script creates and selects the `expense` database.
-5. Create a `.env` file in the project root with the database connection values:
+5. Create a private `.env` file in the project root and set these variables to your local database values: `DB_HOST`, `DB_NAME`, `DB_USER`, and `DB_PASSWORD`. Keep `.env` out of this public repository; never commit real credentials or other secrets.
 
-	```dotenv
-	DB_HOST=127.0.0.1
-	DB_NAME=expense
-	DB_USER=root
-	DB_PASSWORD=your_mysql_password
-	```
-
-	Set `DB_USER` and `DB_PASSWORD` to match your local MySQL account. Do not commit real credentials.
-
-6. Open [http://localhost/expense_tracker/](http://localhost/expense_tracker/) in your browser. The default route is the user dashboard and requires login; use the login or registration links to begin.
+6. Open the application locally at `http://localhost/expense_tracker/` and use its sign-in or registration page.
 
 > The schema file is currently outside this project folder at `../database/schema.sql`. If you move or package the project separately, keep that schema file available or update the import path.
 
@@ -79,38 +70,13 @@ The schema defines two InnoDB tables:
 
 Each user can have many transactions. Deleting a user cascades to that user's transactions. Indexes support user/date listings, type filters, and recent activity. Amounts are displayed in MAD by the interface.
 
-To grant an account administrator access, register it first, then update its role in MySQL:
+## Security Notes
 
-```sql
-UPDATE users
-SET role = 'admin'
-WHERE email = 'admin@example.com';
-```
-
-## Application Routes
-
-Routes use the `action` query parameter on `index.php`.
-
-| Action | Purpose | Access |
-| --- | --- | --- |
-| `showLogin` | Display login form | Public |
-| `login` | Submit login form | Public, POST |
-| `showRegister` | Display registration form | Public |
-| `register` | Submit registration form | Public, POST |
-| `logout` | End the current session | Logged-in user |
-| `dashboard` | View personal totals and recent transactions | Logged-in user |
-| `userTransactions` | Browse personal transactions | Logged-in user |
-| `create` | Display transaction form | Logged-in user |
-| `store` | Create a transaction | Logged-in user, POST |
-| `edit&id=...` | Edit a transaction | Logged-in user |
-| `update` | Save transaction changes | Logged-in user, POST |
-| `delete` | Delete a transaction | Logged-in user, POST |
-| `admin` | View admin dashboard | Administrator |
-| `adminUsers` | Browse users | Administrator |
-| `adminUserDetail&id=...` | View a user | Administrator |
-| `adminDeleteUser` | Delete a user | Administrator, POST |
-
-Example: `http://localhost/expense_tracker/index.php?action=showLogin`
+- Keep `.env` local and private. Use a dedicated MySQL account with only the permissions the application needs; do not use a privileged database account in a deployed environment.
+- Never add real passwords, API keys, personal records, production hostnames, or database exports to this public repository.
+- Use HTTPS for deployed environments, keep PHP and dependencies updated, and disable detailed error display in production.
+- The application uses session-based authentication and CSRF tokens for form submissions. Review authentication, authorization, input validation, and session settings before exposing it to the internet; these measures alone do not constitute a security audit.
+- Grant administrator privileges only to trusted accounts, and do so through a controlled administrative process.
 
 ## Project Structure
 
@@ -124,7 +90,7 @@ expense_tracker/
 ├── controller/              # Authentication, transaction, and admin actions
 ├── model/                   # Database queries and persistence functions
 ├── view/                    # Login, registration, user, and admin templates
-├── index.php                # Bootstrap, session setup, and action router
+├── index.php                # Bootstrap, session setup, and request handling
 ├── composer.json            # PHP dependency declaration
 └── README.md
 ```
