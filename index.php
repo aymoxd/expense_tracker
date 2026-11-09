@@ -30,6 +30,10 @@ error_reporting(E_ALL);
               case 'admin':
                      adminDashboard();
             break;
+            case 'adminProfile':
+                     requireAdmin();
+                     require_once 'view/admin/profile.php';
+            break;
             case 'create':
                      requireLogin();
                      create();

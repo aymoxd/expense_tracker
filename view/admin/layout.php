@@ -35,10 +35,7 @@
                     <i class="ri-user-line" aria-hidden="true"></i>
                     <span>Users</span>
                 </a>
-                <a href="index.php?action=adminTransactions" class="admin-nav-link user-nav-link<?= ($_GET['action'] ?? '') === 'adminTransactions' ? ' active' : '' ?>"<?= ($_GET['action'] ?? '') === 'adminTransactions' ? ' aria-current="page"' : '' ?>>
-                    <i class="ri-wallet-3-line" aria-hidden="true"></i>
-                    <span>Transactions</span>
-                </a>
+           
                   <a href="index.php?action=dashboard" class="admin-nav-link user-nav-link<?= ($_GET['action'] ?? '') === 'dashboard' ? ' active' : '' ?>">
                     <i class="ri-line" aria-hidden="true"></i>
                     <span>go to app</span>
